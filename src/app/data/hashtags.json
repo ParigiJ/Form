@@ -1,0 +1,24 @@
+{
+  "AllHashtags": [
+    {
+      "id": 1,
+      "name": "#civilian"
+    },
+    {
+      "id": 2,
+      "name": "#race"
+    },
+    {
+      "id": 3,
+      "name": "#supercar"
+    },
+    {
+      "id": 4,
+      "name": "#race"
+    },
+    {
+      "id": 5,
+      "name": "#cars"
+    }
+  ]
+}
