@@ -1,0 +1,28 @@
+.
+├── README.md
+├── eslint.config.mjs
+├── fs.txt
+├── jsconfig.json
+├── next.config.mjs
+├── package.json
+├── postcss.config.mjs
+├── public
+├── src
+│   └── app
+│       ├── (clientFacing)
+│       │   └── page.jsx
+│       ├── components
+│       │   ├── Counter.jsx
+│       │   ├── Feedbacks.jsx
+│       │   ├── Form.jsx
+│       │   └── Hashtags.jsx
+│       ├── data
+│       │   ├── feedbacks.json
+│       │   └── hashtags.json
+│       ├── globals.css
+│       ├── layout.jsx
+│       └── lib
+│           └── utils.js
+└── yarn.lock
+
+8 directories, 18 files
