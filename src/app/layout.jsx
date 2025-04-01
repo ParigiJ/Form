@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={cn(
-          "flex bg-background min-h-screen justify-center items-center font-geist-sans font-geist-mono antialiased",
+          "flex bg-background justify-center items-center font-geist-sans font-geist-mono antialiased",
           geistSans.variable,
           geistMono.variable
         )}

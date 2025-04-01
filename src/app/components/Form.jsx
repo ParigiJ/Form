@@ -1,38 +1,69 @@
 "use client";
-import React from "react";
+
 import Counter from "./Counter";
-import { useState } from "react";
-import hashtags from "../data/hashtags.json";
+import useFetchData from "../../hooks/useFetchData";
+import { useState, useEffect } from "react";
 
 const Form = () => {
-  const [text, setText] = useState("");
   const [brand, setBrand] = useState("");
-  const AllHashtags = hashtags.AllHashtags;
+  const { data: hashtags } = useFetchData("/api/hashtags");
   const maxLength = 150;
+  const cachedFeedbacks = JSON.parse(localStorage.getItem("feedbacks") || []);
+  const [feedback, setFeedback] = useState(cachedFeedbacks);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    if (containsHashtag(text)) {
-      console.log("Form submitted");
-      setText("");
-      setBrand("");
+    if (isFeedbackValid(feedback)) {
+      await SubmitFeedback();
+      resetForm();
+      history.go(0);
     } else {
       alert("Include Hashtag");
     }
   };
 
+  const isFeedbackValid = (feedback) => {
+    return hashtags.some((hashtag) => {
+      return feedback.toLowerCase().includes(hashtag.name.toLowerCase());
+    });
+  };
+
+  const SubmitFeedback = async () => {
+    const feedbackData = {
+      brand,
+      feedback,
+    };
+    try {
+      const res = await fetch("../api/feedbacks", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(feedbackData),
+      });
+      if (res.ok) {
+        const feedback = await res.json();
+        console.log("Feedback submitted successfully:", feedback);
+        alert("Thank you for your feedback");
+      } else {
+        console.error("Failed to submit feedback:", await res.json());
+      }
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
+  };
+
+  const resetForm = () => {
+    setFeedback("");
+    setBrand("");
+  };
+
   const handleChange = (e) => {
-    setText(e.target.value);
+    setFeedback(e.target.value);
   };
 
   const handleBrandChange = (e) => {
     setBrand(e.target.value);
-  };
-
-  const containsHashtag = (text) => {
-    return AllHashtags.some((hashtag) => {
-      return text.toLowerCase().includes(hashtag.name.toLowerCase());
-    });
   };
 
   return (
@@ -46,14 +77,14 @@ const Form = () => {
           <label
             htmlFor="brand"
             id="brand"
-            value={brand}
-            onChange={handleBrandChange}
             className="flex-none text-white font-bold text-2xl"
           >
             Brand: <span className="text-red-400">*</span>
           </label>
           <input
             type="text"
+            value={brand}
+            onChange={handleBrandChange}
             required
             className="flex-1 border-1 border-gray-300 rounded-md p-2 max-w-full outline-1 resize-none"
           />
@@ -71,7 +102,7 @@ const Form = () => {
             cols="30"
             rows="6"
             maxLength={maxLength}
-            value={text}
+            value={feedback}
             onChange={handleChange}
             required
             className="flex border-1 border-gray-300 rounded-md p-2 w-full outline-1 resize-none"
@@ -79,7 +110,7 @@ const Form = () => {
         </div>
 
         <div className="absolute bottom-2 left-20 text-sm">
-          <Counter count={text.length} maxLength={maxLength} />
+          <Counter count={feedback.length} maxLength={maxLength} />
         </div>
         <button
           type="submit"
@@ -91,5 +122,4 @@ const Form = () => {
     </form>
   );
 };
-
 export default Form;
