@@ -1,4 +1,4 @@
-** 🚀 Feedback Form**
+**🚀 Feedback Form**
 - A feedback submission application built with Next.js, React, and MongoDB Atlas, utilizing Prisma as the ORM.
 
 **✨ Features**
