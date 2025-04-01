@@ -7,10 +7,10 @@ const Feedback = () => {
     <div
       className="flex w-150 h-200 
         rounded-2xl
-        justify-between items-start gap-4
+        justify-between items-start gap-4 p-2
         "
     >
-      <section className="flex flex-col w-full">
+      <section className="flex flex-col w-3/4">
         <Form />
         <Feedbacks />
       </section>
